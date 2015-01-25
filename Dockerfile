@@ -1,0 +1,22 @@
+FROM ubuntu:trusty
+
+RUN apt-get install -y curl unzip git wget && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install ChefDK
+
+RUN wget -q https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.3.6-1_amd64.deb && dpkg -i chefdk_0.3.6-1_amd64.deb && rm -f chefdk_0.3.6-1_amd64.deb
+
+RUN echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile && eval "$(chef shell-init bash)"
+
+# Install Packer
+
+RUN mkdir -p /usr/local/bin/ && cd /usr/local/bin && wget -q https://dl.bintray.com/mitchellh/packer/packer_0.7.5_linux_amd64.zip && unzip packer_0.7.5_linux_amd64.zip && rm -f packer_0.7.5_linux_amd64.zip
+
+RUN git clone https://github.com/octohost/octohost-cookbook.git && cd octohost-cookbook && berks install && berks vendor vendor/cookbooks
+
+# Need to pass in the DIGITALOCEAN_API_TOKEN when launching this image:
+#   `docker run -d -e DIGITALOCEAN_API_TOKEN=put-the-token-here octohost/build-do`
+# Then watch the logs as it builds: `docker logs -f container-id`
+
+CMD cd octohost-cookbook && packer build -only=digitalocean template.json
+
