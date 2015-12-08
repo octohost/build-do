@@ -6,7 +6,7 @@ RUN apt-get install -y curl unzip git wget && apt-get clean && rm -rf /var/lib/a
 
 RUN wget -q https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.10.0-1_amd64.deb && dpkg -i chefdk_0.10.0-1_amd64.deb && rm -f chefdk_0.10.0-1_amd64.deb
 
-RUN echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile && eval "$(chef shell-init bash)"
+RUN echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 
 # Install Packer
 
