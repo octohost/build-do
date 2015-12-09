@@ -2,7 +2,7 @@
 
 The absolute easiest way to build octohost. Run this on any Docker instance with access to the internet:
 
-`docker run -d -e DIGITALOCEAN_API_TOKEN=put-the-token-here octohost/build-do`
+`docker run -e DIGITALOCEAN_API_TOKEN=put-the-token-here octohost/build-do`
 
 That will use your `DIGITALOCEAN_API_TOKEN` to build an [octohost](https://www.octohost.io) on DigitalOcean.
 
